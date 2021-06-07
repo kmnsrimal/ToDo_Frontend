@@ -1,0 +1,250 @@
+<!-- <p>todo works!</p> -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav">
+  <li class="nav-item active">
+  <a class="nav-link" [routerLink] = "['']" routerLinkActive = "active">Home</a>
+  </li>
+  <li class="nav-item">
+    <button class="btn btn btn-primary" style="margin-left: 1000pt;" routerLink="/login">Logout</button>
+  </li>
+  </ul>
+  </div>
+  </nav>
+<div class="container">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">ToDo List</h2>
+  <!-- </div> -->
+  <button class="btn btn-sm btn-primary" routerLink="/create">Create</button>
+<!-- </div> -->
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Duedate</th>
+          <th scope="col">Status</th>
+          <th scope="col">Category</th>
+          <th scope="col">Functions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of ToDo; let i = index">
+          <td>{{todo.id}}</td>
+          <td>{{todo.title}}</td>
+          <td>{{todo.description}}</td>
+          <td><button type="button"  (click)="find(todo)" id= '{{todo.id}}' class="btn " data-bs-toggle="modal" data-bs-target="#date">
+            {{todo.duedate}}
+          </button></td>
+          <!-- <td><a  (click)="complete(todo);">{{todo.status}}</a></td> -->
+          <td><button type="button" class="btn " data-bs-toggle="modal" data-bs-target="#status">
+            {{todo.status}}
+          </button></td>
+          <td>{{todo.category}}</td>
+          <td>{{todo.functions}}</td>
+
+          <td class="text-center">
+
+
+            <button class="btn btn-sm btn-primary" (click)="complete(todo)">Complete</button>
+            &nbsp;
+            <!-- <button class="btn btn-sm btn-primary" routerLink="/edit_status/{{todo.id}}"> Edit </button> -->
+            &nbsp;
+            <!-- <button class="btn btn-sm btn-danger" (click)="deleteEmployee('name')">Delete</button> -->
+            <button class="btn btn-sm btn-danger" (click)="deleteid(todo)" data-bs-toggle="modal" data-bs-target="#delete">Delete</button>
+        </tr>
+      </tbody>
+    </table>
+
+  <!-- </div>
+  <button class="btn btn-sm btn-primary" routerLink="/create">Create</button>
+</div>
+
+<button type="button" class="btn btn-primary me-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  User Login
+</button> -->
+
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+  Validation Form
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title text-danger" id="exampleModalLabel">Login Form</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div style="text-align: center;">
+
+        <p>Are you sure you want to delete this item?</p>
+        <p>Are you sure you want to change this item?</p>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="category">Category</label>
+            <select formControlName="category" id="category" class="form-control">
+              <option >
+
+              </option>
+            </select>
+          </div>
+          <!-- <button type="button" class="btn btn-primary">Login</button> -->
+        </form>
+      </div>
+      <!-- <div class ="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Yes</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">Add Book</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="duedate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h5 class="modal-title text-danger" id="exampleModalLabel">Login Form</h5> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div style="text-align: center;">
+
+        <p>Are you sure you want to delete this item?</p>
+        <p>Are you sure you want to change this item?</p>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="duedateForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>duedate</label>
+            <input class="form-control" type="date" formControlName="date" required>
+          </div>
+          <!-- <button type="button" class="btn btn-primary">Login</button> -->
+        </form>
+      </div>
+      <!-- <div class ="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Yes</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit"  >Add Book</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="date" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" style="text-align: center;" id="exampleModalLabel">Postpone Form</h5>
+        <button type="button" class="btn-close" routerLink="/todo" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div style="text-align: center;">
+
+        <!-- <p>Are you sure you want to delete this item?</p> -->
+        <!-- <p>Are you sure you want to change this item?</p> -->
+      </div>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+      <form [formGroup]="duedateForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Due Date</label>
+          <input class="form-control-m" type="date" formControlName="date" required>
+        </div>
+        <div class="modal-footer">
+        <div class="form-group">
+          <button class="btn btn-primary btn-block"  type="submit" >Submit</button>
+        </div>
+
+        </div>
+      </form>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="status" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" style="text-align: center;" id="exampleModalLabel">Status Form</h5>
+        <button type="button" class="btn-close" routerLink="/todo" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div style="text-align: center;">
+
+        <!-- <p>Are you sure you want to delete this item?</p> -->
+        <!-- <p>Are you sure you want to change this item?</p> -->
+      </div>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+      <form [formGroup]="duedateForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="status" >Status:</label>
+          <select name="postPone" id="postPone">
+            <option value="PostPone" class="form-control-sm">PostPone</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+        <div class="form-group">
+          <button class="btn btn-primary btn-block"  type="submit" >Submit</button>
+        </div>
+
+        </div>
+      </form>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" style="text-align: center;" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="btn-close" routerLink="/todo" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div style="text-align: center;">
+
+        <p>Are you sure you want to delete this item?</p>
+        <!-- <p>Are you sure you want to change this item?</p> -->
+      </div>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+      <!-- <form [formGroup]="duedateForm" (ngSubmit)=""> -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-warning" (click)="DeleteFun()">Yes</button>
+          <!-- <button class="btn btn-sm btn-primary" (click)="DeleteFun()">Complete</button> -->
+        </div>
+
+        </div>
+      <!-- </form>   -->
+  </div>
+</div>
+</div>
+</div>
+</div>
+
