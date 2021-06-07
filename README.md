@@ -33,4 +33,4 @@ npm install
 
 ## Run
 
-npm start
+ng serve --open
